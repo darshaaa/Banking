@@ -3,7 +3,13 @@
 import "./globals.css";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { Roboto } from "next/font/google";
 import Sidebar from "./components/Sidebar";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 export default function RootLayout({
   children,
@@ -29,7 +35,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${roboto.className} antialiased`}>
         {pathname === "/login" ? (
           <>{children}</>
         ) : pathname.startsWith("/dashboard") ? (

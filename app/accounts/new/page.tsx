@@ -10,7 +10,7 @@ export default function OpenNewAccount() {
       <Sidebar />
 
       <div className="flex-1 overflow-y-auto p-8">
-        {/* Top Navigation */}
+        
         <div className="flex justify-between items-center mb-6">
           <Link href="/accounts" className="flex items-center gap-2 text-slate-400 text-[10px] font-black hover:text-slate-600 transition-colors uppercase tracking-widest">
             <ArrowLeft size={14} /> Back to Accounts
@@ -23,10 +23,7 @@ export default function OpenNewAccount() {
         <h1 className="text-2xl font-bold text-slate-900 mb-8">Open New Account</h1>
 
         <div className="flex gap-8 max-w-7xl">
-          {/* Main Form Area */}
           <div className="flex-[2] space-y-6">
-            
-            {/* Section 1: Select Member */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <h3 className="text-[#0047AB] font-bold text-sm mb-6">1. Select Member</h3>
               <div className="flex gap-3 mb-6">
@@ -39,8 +36,6 @@ export default function OpenNewAccount() {
                 </div>
                 <button className="bg-[#0047AB] text-white px-6 py-2 rounded-lg text-sm font-bold">Search</button>
               </div>
-
-              {/* Member Card Result */}
               <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex items-center gap-4">
                 <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">AD</div>
                 <div className="flex-1">
@@ -53,12 +48,8 @@ export default function OpenNewAccount() {
                 </div>
               </div>
             </div>
-
-            {/* Section 2: Account Configuration */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <h3 className="text-[#0047AB] font-bold text-sm mb-6">2. Account Configuration</h3>
-              
-              {/* Account Type Tabs */}
               <div className="flex gap-2 mb-8 bg-slate-50 p-1 rounded-lg w-fit">
                 {["Savings (SB)", "Fixed Deposit (FD)", "Recurring (RD)", "Pigmy"].map((tab) => (
                   <button 
@@ -97,8 +88,6 @@ export default function OpenNewAccount() {
                 </div>
               </div>
             </div>
-
-            {/* Section 3: Nominee Details */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-[#0047AB] font-bold text-sm">3. Nominee Details</h3>
@@ -115,15 +104,11 @@ export default function OpenNewAccount() {
                 </div>
               </div>
             </div>
-
-            {/* Actions */}
             <div className="flex justify-end gap-4 pt-4">
               <button className="px-8 py-2.5 border border-slate-200 rounded-lg text-sm font-bold text-slate-500 hover:bg-slate-50">Cancel</button>
               <button className="px-10 py-2.5 bg-green-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-green-700/20 hover:bg-green-700">Create Account</button>
             </div>
           </div>
-
-          {/* Right Sidebar: Maturity Simulator */}
           <div className="flex-1">
             <div className="bg-[#2D2D2D] text-white rounded-2xl p-6 shadow-xl sticky top-8">
               <h3 className="text-sm font-bold mb-6 flex items-center justify-between">

@@ -1,6 +1,7 @@
 "use client";
 
-import { Plus, Calculator, Search, AlertCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Plus, Calculator, Search, AlertCircle, X } from "lucide-react";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
@@ -19,30 +20,63 @@ const loanRegistry = [
 ];
 
 export default function LoanPortfolio() {
+  // --- LOGIC STATES ---
+  const [activeTab, setActiveTab] = useState("All Loans");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isCalcOpen, setIsCalcOpen] = useState(false);
+
+  // EMI Calc Inputs
+  const [calcAmt, setCalcAmt] = useState(100000);
+  const [calcRate, setCalcRate] = useState(12);
+  const [calcTenure, setCalcTenure] = useState(12);
+
+  // EMI Calculation: [P x R x (1+R)^N]/[(1+R)^N-1]
+  const calculateEMI = () => {
+    const r = calcRate / 12 / 100;
+    const emi = (calcAmt * r * Math.pow(1 + r, calcTenure)) / (Math.pow(1 + r, calcTenure) - 1);
+    return isNaN(emi) ? 0 : emi.toFixed(0);
+  };
+
+  // --- FILTERING LOGIC ---
+  const filteredLoans = loanRegistry.filter((loan) => {
+    const matchesTab = 
+      activeTab === "All Loans" || 
+      (activeTab === "Gold Loan" && loan.type === "GOLD LOAN") ||
+      (activeTab === "Personal" && loan.type === "PERSONAL") ||
+      (activeTab === "NPA List" && loan.status === "NPA");
+
+    const matchesSearch = 
+      loan.borrower.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      loan.id.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesTab && matchesSearch;
+  });
+
   return (
-    <div className="flex h-screen bg-indigo-200 overflow-hidden">
+    <div className="flex h-screen bg-indigo-200 overflow-hidden relative">
       <Sidebar />
 
-      <div className="flex-1 overflow-y-auto p-8">
-        {/* Header Section */}
+      <div className="flex-1 overflow-y-auto p-8 text-slate-800">
         <div className="flex justify-between items-start mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Loan Portfolio</h1>
             <p className="text-sm text-slate-500 font-medium">Manage Gold, Personal, and Mortgage Loans</p>
           </div>
           <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-sm transition-all">
+            <button 
+              onClick={() => setIsCalcOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-sm transition-all active:scale-95"
+            >
               <Calculator size={16} /> EMI Calculator
             </button>
             <Link href="/loans/new">
-              <button className="flex items-center gap-2 px-4 py-2 bg-[#0047AB] text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-700 transition-all">
+              <button className="flex items-center gap-2 px-4 py-2 bg-[#0047AB] text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-700 transition-all active:scale-95">
                 <Plus size={16} strokeWidth={3} /> New Loan Application
               </button>
             </Link>
           </div>
         </div>
 
-        {/* Loan Stats Cards */}
         <div className="grid grid-cols-4 gap-6 mb-8">
           {loanStats.map((stat, i) => (
             <div key={i} className={`bg-white p-6 rounded-xl border-l-4 ${stat.color} shadow-sm ${stat.bg || ''}`}>
@@ -53,19 +87,28 @@ export default function LoanPortfolio() {
           ))}
         </div>
 
-        {/* Filters and Table Container */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-slate-100 flex justify-between items-center">
+          <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <div className="flex gap-2">
               {["All Loans", "Gold Loan", "Personal", "NPA List"].map((tab) => (
-                <button key={tab} className={`px-4 py-1.5 rounded-md text-xs font-bold tracking-tight transition-all ${tab === "All Loans" ? "bg-blue-50 text-[#0047AB]" : "text-slate-500 hover:bg-slate-100"}`}>
+                <button 
+                  key={tab} 
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-1.5 rounded-md text-xs font-bold tracking-tight transition-all ${activeTab === tab ? "bg-[#0047AB] text-white shadow-md shadow-blue-100" : "text-slate-500 hover:bg-slate-100"}`}
+                >
                   {tab === "NPA List" ? <span className="flex items-center gap-1">{tab} <AlertCircle size={12} /></span> : tab}
                 </button>
               ))}
             </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-              <input type="text" placeholder="Search Loan ID or Name..." className="pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-medium w-64 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all" />
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search Loan ID or Name..." 
+                className="pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-medium w-64 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+              />
             </div>
           </div>
 
@@ -83,7 +126,7 @@ export default function LoanPortfolio() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {loanRegistry.map((loan, i) => (
+              {filteredLoans.map((loan, i) => (
                 <tr key={i} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-4 text-xs font-black text-[#0047AB] tracking-tight">{loan.id}</td>
                   <td className="px-6 py-4">
@@ -122,6 +165,43 @@ export default function LoanPortfolio() {
           </table>
         </div>
       </div>
+
+      {/* --- EMI CALCULATOR MODAL --- */}
+      {isCalcOpen && (
+        <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-[#0047AB] p-6 text-white flex justify-between items-center">
+              <div>
+                <h3 className="font-black uppercase tracking-tighter">EMI Calculator</h3>
+                <p className="text-[10px] font-bold opacity-70 uppercase">Quick Repayment Estimate</p>
+              </div>
+              <button onClick={() => setIsCalcOpen(false)} className="p-2 hover:bg-white/20 rounded-full transition-all">
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount (₹)</label>
+                <input type="number" value={calcAmt} onChange={(e) => setCalcAmt(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-100 border border-slate-300 rounded-xl font-bold text-slate-800 outline-none focus:border-blue-500" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Rate (% PA)</label>
+                  <input type="number" value={calcRate} onChange={(e) => setCalcRate(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-100 border border-slate-300 rounded-xl font-bold text-slate-800 outline-none" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Months</label>
+                  <input type="number" value={calcTenure} onChange={(e) => setCalcTenure(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-100 border border-slate-300 rounded-xl font-bold text-slate-800 outline-none" />
+                </div>
+              </div>
+              <div className="mt-6 p-5 bg-blue-50 border border-blue-300 rounded-2xl text-center">
+                <p className="text-[10px] font-black text-blue-600 uppercase mb-1">Monthly EMI</p>
+                <p className="text-3xl font-black text-[#0047AB]">₹ {calculateEMI()}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

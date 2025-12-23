@@ -47,7 +47,6 @@ export default function ReportsCenter() {
       <Sidebar />
       
       <div className="flex-1 overflow-y-auto p-8">
-        {/* Header */}
         <div className="flex justify-between items-start mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Reports Center</h1>
@@ -58,8 +57,6 @@ export default function ReportsCenter() {
             <span className="text-xs font-black text-slate-900 uppercase">Today: 17 Dec 2025</span>
           </div>
         </div>
-
-        {/* Report Category Grid */}
         <div className="grid grid-cols-4 gap-6 mb-10">
           {reportCategories.map((cat, i) => (
             <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col">
@@ -86,8 +83,6 @@ export default function ReportsCenter() {
             </div>
           ))}
         </div>
-
-        {/* Recently Generated Section */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100">
             <h3 className="text-sm font-black text-slate-800 uppercase tracking-tight">Recently Generated</h3>

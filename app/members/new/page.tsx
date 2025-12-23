@@ -8,9 +8,7 @@ export default function RegisterMember() {
   return (
     <div className="flex h-screen bg-indigo-200 overflow-hidden">
       <Sidebar />
-
       <div className="flex-1 overflow-y-auto p-8">
-        {/* Top Navigation */}
         <div className="flex justify-between items-center mb-6">
           <Link href="/members" className="flex items-center gap-2 text-slate-400 text-xs font-bold hover:text-slate-600 transition-colors uppercase tracking-wider">
             <ArrowLeft size={14} /> Back to Member List
@@ -18,10 +16,7 @@ export default function RegisterMember() {
         </div>
 
         <h1 className="text-2xl font-bold text-slate-900 mb-8">Register New Member</h1>
-
         <div className="space-y-6 max-w-6xl">
-          
-          {/* Section 1: Personal Information */}
           <div className="bg-white rounded-xl border border-slate-300 shadow-sm p-6">
             <h3 className="text-[#0047AB] font-bold text-sm mb-6 flex items-center gap-3">
               <span className="w-6 h-6 bg-[#0047AB] text-white rounded-full flex items-center justify-center text-[10px]">1</span>
@@ -60,7 +55,6 @@ export default function RegisterMember() {
           </div>
 
           <div className="grid grid-cols-3 gap-6">
-            {/* Section 2: Contact & KYC */}
             <div className="col-span-2 bg-white rounded-xl border border-slate-300 shadow-sm p-6">
               <h3 className="text-[#0047AB] font-bold text-sm mb-6 flex items-center gap-3">
                 <span className="w-6 h-6 bg-[#0047AB] text-white rounded-full flex items-center justify-center text-[10px]">2</span>
@@ -89,8 +83,6 @@ export default function RegisterMember() {
                 </div>
               </div>
             </div>
-
-            {/* Section 3: Biometrics */}
             <div className="bg-white rounded-xl border border-slate-300 shadow-sm p-6">
               <h3 className="text-[#0047AB] font-bold text-sm mb-6 flex items-center gap-3">
                 <span className="w-6 h-6 bg-[#0047AB] text-white rounded-full flex items-center justify-center text-[10px]">3</span>
@@ -110,8 +102,6 @@ export default function RegisterMember() {
               </div>
             </div>
           </div>
-
-          {/* Section 4: Initial Share Capital */}
           <div className="bg-white/40 rounded-xl border border-blue-300 p-6 ">
             <h3 className="text-[#0047AB] font-bold text-sm mb-6 flex items-center gap-3">
               <span className="w-6 h-6 bg-[#0047AB] text-white rounded-full flex items-center justify-center text-[10px]">4</span>
@@ -138,8 +128,6 @@ export default function RegisterMember() {
               </div>
             </div>
           </div>
-
-          {/* Section 5: Nominee Details */}
           <div className="bg-white rounded-xl border border-slate-300 shadow-sm p-6">
             <h3 className="text-[#0047AB] font-bold text-sm mb-6 flex items-center gap-3">
               <span className="w-6 h-6 bg-[#0047AB] text-white rounded-full flex items-center justify-center text-[10px]">5</span>
@@ -169,8 +157,6 @@ export default function RegisterMember() {
               <input type="text" defaultValue="100%" className="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm font-bold focus:outline-none" />
             </div>
           </div>
-
-          {/* Form Actions */}
           <div className="flex justify-end items-center gap-4 pt-4 pb-12">
             <button className="px-8 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Reset Form</button>
             <button className="bg-[#0047AB] text-white px-10 py-2.5 rounded-lg text-sm font-bold shadow-lg shadow-blue-700/20 hover:bg-[#003399]">Create Member</button>

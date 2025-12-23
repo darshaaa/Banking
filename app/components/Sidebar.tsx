@@ -29,7 +29,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* SIDEBAR */}
       <div className="w-60 h-screen bg-white border-r border-slate-300 flex flex-col sticky top-0 shrink-0">
         <div className="p-6 flex items-center gap-3 mb-8">
           <div className="w-8 h-8 bg-[#003399] rounded-md flex items-center justify-center text-white font-bold">
@@ -69,8 +68,6 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-
-      {/* LOGOUT CONFIRM MODAL */}
       <div
         className={`fixed inset-0 z-50 flex items-center justify-center
         transition-all duration-200 ease-out

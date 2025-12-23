@@ -3,16 +3,12 @@ import { AlertTriangle, TrendingDown, TrendingUp, Users } from "lucide-react";
 export default function DashboardContent() {
   return (
     <div className="flex-1 bg-indigo-200 min-h-screen flex">
-      {/* 1. Main Center Content Area */}
       <div className="flex-[3] p-8 overflow-y-auto">
-        {/* Header Row */}
         <div className="flex justify-between items-start mb-8">
           <div>
             <h2 className="text-2xl font-bold text-slate-900">Welcome back, Manager</h2>
             <p className="text-slate-500 text-sm">Wednesday, 17 Dec 2025 | Main Branch</p>
           </div>
-          
-          {/* Top Right Profile & Safe */}
           <div className="flex items-center gap-6">
             <div className="bg-[#E0F2FE] text-[#0369A1] px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 border border-blue-100">
               🔒 Safe: ₹ 12,50,400
@@ -26,16 +22,12 @@ export default function DashboardContent() {
             </div>
           </div>
         </div>
-
-        {/* Stats Grid */}
         <div className="grid grid-cols-4 gap-4 mb-6">
           <StatCard title="TOTAL DEPOSITS (TODAY)" value="₹ 4,20,500" trend="▲ 12% vs yesterday" trendColor="text-green-600" />
           <StatCard title="TOTAL WITHDRAWALS" value="₹ 1,15,200" trend="▼ 5% vs yesterday" trendColor="text-red-600" />
           <StatCard title="NEW MEMBERS (MONTH)" value="45" trend="+8 this week" trendColor="text-green-600" />
           <StatCard title="PENDING APPROVALS" value="3" subtitle="Requires Action" isWarning />
         </div>
-
-        {/* --- REFINED FUND FLOW SECTION --- */}
         <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm mb-6">
           <div className="flex justify-between items-center mb-10">
             <h3 className="font-bold text-slate-700">Fund Flow (Last 7 Days)</h3>
@@ -44,18 +36,13 @@ export default function DashboardContent() {
                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-400"></span> Outflow</span>
             </div>
           </div>
-          
-          {/* Chart Bars */}
           <div className="relative h-40 flex items-end justify-between px-4">
-            {/* Grid lines for background */}
             <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
               <div className="w-full border-t border-slate-50"></div>
               <div className="w-full border-t border-slate-50"></div>
               <div className="w-full border-t border-slate-50"></div>
               <div className="w-full border-b border-slate-100"></div>
             </div>
-
-            {/* Bars: Data mapping (heights are example values) */}
             {[
               { day: 'Mon', income: 60, outflow: 30 },
               { day: 'Tue', income: 85, outflow: 45 },
@@ -74,9 +61,6 @@ export default function DashboardContent() {
             ))}
           </div>
         </div>
-        {/* --- END FUND FLOW --- */}
-
-        {/* Recent Transactions Table */}
         <div className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="p-5 flex justify-between items-center">
             <h3 className="font-bold text-slate-800">Recent Transactions</h3>
@@ -101,8 +85,6 @@ export default function DashboardContent() {
           </table>
         </div>
       </div>
-
-      {/* 2. Separate Right Action Sidebar */}
       <div className="w-65 bg-slate-50 border-l border-slate-300 p-6 space-y-8">
         <div>
           <h3 className="font-bold text-slate-800 flex items-center gap-2 mb-4">
@@ -127,7 +109,6 @@ export default function DashboardContent() {
   );
 }
 
-// Sub-components (StatCard, TableRow, ActionCard, StatusRow) remain the same as your previous logic...
 function StatCard({ title, value, trend, trendColor, subtitle, isWarning }: any) {
   return (
     <div className={`p-4 rounded-xl border ${isWarning ? 'bg-[#FFFBEB] border-[#FEF3C7]' : 'bg-white border-slate-100 shadow-sm'}`}>

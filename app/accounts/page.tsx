@@ -5,6 +5,20 @@ import { Search, Plus, Calculator, ChevronDown, X, CheckCircle2, Clock } from "l
 import Sidebar from "../components/Sidebar";
 import Link from "next/link";
 
+// --- ADDED INTERFACE FOR TYPESCRIPT ---
+interface Account {
+  no: string;
+  name: string;
+  id: string;
+  type: string;
+  typeColor: string;
+  interest: string;
+  balance: string;
+  status: string;
+  statusColor: string;
+  isMaturing?: boolean;
+}
+
 const accountSummary = [
   { label: "Total Savings Balance", value: "₹ 1.24 Cr", sub: "2,100 Active Accounts" },
   { label: "Fixed Deposits (FD)", value: "₹ 3.50 Cr", sub: "450 Active Certs" },
@@ -19,7 +33,7 @@ const accountSummary = [
   }
 ];
 
-const accounts = [
+const accounts: Account[] = [
   { no: "SB-01-10042", name: "Rajesh Kumar", id: "M-10042", type: "Savings", typeColor: "bg-blue-50 text-blue-600", interest: "4.00%", balance: "₹ 12,450.00", status: "ACTIVE", statusColor: "bg-green-100 text-green-700" },
   { no: "FD-24-00892", name: "Anita Desai", id: "M-10043", type: "Fixed Deposit", typeColor: "bg-emerald-50 text-emerald-600", interest: "7.50%", balance: "₹ 1,00,000.00", status: "ACTIVE", statusColor: "bg-green-100 text-green-700", isMaturing: true },
   { no: "RD-24-00112", name: "Suresh Patil", id: "M-00892", type: "Recurring", typeColor: "bg-purple-50 text-purple-600", interest: "6.80%", balance: "₹ 5,000 / mo", status: "DUE", statusColor: "bg-amber-100 text-amber-700" },
@@ -30,13 +44,13 @@ export default function AccountOperations() {
   const [activeTab, setActiveTab] = useState("All Accounts");
   const [searchQuery, setSearchQuery] = useState("");
   const [showCalculator, setShowCalculator] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState(null);
   
-  // --- NEW STATUS FILTER STATES ---
+  // --- FIXED STATE DECLARATION ---
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+  
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // --- FILTERING LOGIC ---
   const filteredAccounts = accounts.filter((acc) => {
     const matchesTab = 
       activeTab === "All Accounts" || 
@@ -49,7 +63,6 @@ export default function AccountOperations() {
       acc.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       acc.no.toLowerCase().includes(searchQuery.toLowerCase());
 
-    // Matches the status (Active or Due)
     const matchesStatus = 
       statusFilter === "All Status" || 
       acc.status.toUpperCase().includes(statusFilter.toUpperCase());
@@ -63,15 +76,15 @@ export default function AccountOperations() {
       
       <div className="flex-1 overflow-y-auto p-8">
         {/* Header */}
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex justify-between items-start mb-8 text-slate-900">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Account Operations</h1>
+            <h1 className="text-2xl font-bold tracking-tight uppercase">Account Operations</h1>
             <p className="text-sm text-slate-500 mt-1 font-bold">Manage Savings, FDs, RDs, and Daily Deposits</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 text-slate-600">
             <button 
               onClick={() => setShowCalculator(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-black text-slate-600 hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-black hover:bg-slate-50 transition-all shadow-sm active:scale-95"
             >
               <Calculator size={18} /> Calculator
             </button>
@@ -130,11 +143,10 @@ export default function AccountOperations() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search A/c Number or Member Name..." 
-                className="w-full pl-11 pr-4 py-2.5 bg-indigo-200 border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/10 transition-all"
+                className="w-full pl-11 pr-4 py-2.5 bg-indigo-200 border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/10 transition-all text-slate-800"
               />
             </div>
             
-            {/* CORRECTED FILTER BUTTON WITH DROPDOWN */}
             <div className="relative">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -234,14 +246,14 @@ export default function AccountOperations() {
             <div className="p-8 space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Principal Amount (₹)</label>
-                  <input type="number" placeholder="Enter amount" className="w-full px-4 py-4 bg-slate-100 border-2 border-slate-200 rounded-xl text-lg font-black outline-none focus:border-blue-600 transition-all" />
+                  <input type="number" placeholder="Enter amount" className="w-full px-4 py-4 bg-slate-100 border-2 border-slate-200 rounded-xl text-lg font-black outline-none focus:border-blue-600 transition-all text-slate-800" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-slate-800">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Rate (%)</label>
                     <input type="number" defaultValue="7.5" className="w-full px-4 py-3 bg-slate-100 border-2 border-slate-200 rounded-xl font-bold outline-none" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-slate-800">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tenure (Months)</label>
                     <input type="number" defaultValue="12" className="w-full px-4 py-3 bg-slate-100 border-2 border-slate-200 rounded-xl font-bold outline-none" />
                   </div>
@@ -259,12 +271,12 @@ export default function AccountOperations() {
       {selectedAccount && (
         <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex justify-end" onClick={() => setSelectedAccount(null)}>
           <div className="w-[450px] bg-white h-full shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col border-l border-slate-300" onClick={(e) => e.stopPropagation()}>
-             <div className="p-8 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+             <div className="p-8 border-b border-slate-200 bg-slate-50 flex justify-between items-center text-slate-900">
                 <div>
-                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Statement</h3>
+                  <h3 className="text-xl font-black uppercase tracking-tighter">Statement</h3>
                   <p className="text-xs font-bold text-[#0047AB] uppercase tracking-widest">{selectedAccount.no}</p>
                 </div>
-                <button onClick={() => setSelectedAccount(null)} className="p-2 hover:bg-white rounded-full transition-all border border-slate-200 shadow-sm"><X size={20}/></button>
+                <button onClick={() => setSelectedAccount(null)} className="p-2 hover:bg-white rounded-full transition-all border border-slate-200 shadow-sm text-slate-600"><X size={20}/></button>
              </div>
              <div className="flex-1 p-8 space-y-6">
                 <div className="p-6 bg-indigo-50 border-2 border-indigo-200 rounded-3xl">
